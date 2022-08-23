@@ -6,20 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clock In</title>
     <meta name="description" content="A minimalist productivity app">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="header">
+    <div class="bar">
         <h1>Clock In</h1>
         <div class="profile"><i class="fa-solid fa-user"></i></div>
     </div>
-    <div class="list-container">
-        <div class="add"><h2>+</h2></div>
-        <div class="list">
+    <div class="content">
+        <div class="clockin">
+            <h1>Clock In!</h1>
+        </div>
+        <div class="list-container">
+            <button class="add">+</button>
+            <div class="list">
+                <input id="userText"type="text" placeholder="Enter Task">
+            </div>        
+        </div>
+    
+    </div>
 
-        </div>        
-    </div>
-    <div class="clockin">
-        <h1>Clock In</h1>
-    </div>
 </body>
 </html>
