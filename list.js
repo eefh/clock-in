@@ -2,13 +2,28 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 var root = ReactDOM.createRoot(document.getElementById('content-container'));
+
+var savedTasks = JSON.parse(localStorage.getItem('tasks'));
+
+var tasks = savedTasks || [];
+tasks.forEach(function (element) {
+  element.selected = false;
+});
+
+var Task = function Task(name) {
+  _classCallCheck(this, Task);
+
+  this.name = name;
+  this.selected = false;
+  this.time = 0;
+};
 
 var List = function (_React$Component) {
   _inherits(List, _React$Component);
@@ -20,12 +35,10 @@ var List = function (_React$Component) {
 
     _this.state = {
       name: '',
-      tasks: [],
       selected: null,
       clock: false,
       clockText: 'Clocked Out!',
       date: new Date()
-
     };
     return _this;
   }
@@ -34,8 +47,7 @@ var List = function (_React$Component) {
     key: 'handleChange',
     value: function handleChange(event) {
       this.setState({
-        name: event.target.value,
-        tasks: this.state.tasks
+        name: event.target.value
       });
     }
   }, {
@@ -43,32 +55,40 @@ var List = function (_React$Component) {
     value: function handleUpdate() {
       if (this.state.name != '') {
         this.setState({
-          name: '',
-          tasks: [].concat(_toConsumableArray(this.state.tasks), [{ title: this.state.name, time: 0 }])
+          name: ''
         });
+
+        tasks = [].concat(_toConsumableArray(tasks), [new Task(this.state.name)]);
       }
+      localStorage.setItem('tasks', JSON.stringify(tasks));
     }
   }, {
     key: 'clockChange',
     value: function clockChange() {
-      this.setState({
-        clock: !this.state.clock
-      });
+      if (this.state.selected != null) {
+        this.setState({
+          clock: !this.state.clock
+        });
+      }
     }
   }, {
     key: 'select',
     value: function select(event) {
-      if (this.state.selected != event.target) {
-        this.setState({
-          selected: event.target
-        });
+      if (event.target.className == '') {
         event.target.className = 'selected';
       } else {
-        this.setState({
-          selected: null
-        });
         event.target.className = '';
       }
+      tasks.forEach(function (element) {
+        element.name == event.target.childNodes[0].data && element.selected == false ? element.selected = true : element.selected = false;
+      });
+      console.log(event.target.childNodes[0].data);
+    }
+  }, {
+    key: 'clear',
+    value: function clear() {
+      window.localStorage.clear();
+      tasks = [];
     }
   }, {
     key: 'componentDidMount',
@@ -90,7 +110,10 @@ var List = function (_React$Component) {
       this.setState({
         date: new Date()
       });
-      console.log(this.state.date);
+      tasks.forEach(function (element) {
+        element.selected == true ? element.time += 1 : 0;
+      });
+      localStorage.setItem('tasks', JSON.stringify(tasks));
     }
   }, {
     key: 'render',
@@ -100,15 +123,6 @@ var List = function (_React$Component) {
       return React.createElement(
         'div',
         { className: 'react-content' },
-        React.createElement(
-          'div',
-          { onClick: this.clockChange.bind(this), className: this.state.clock === true && this.state.selected != null ? 'clockout' : 'clockin' },
-          React.createElement(
-            'h1',
-            null,
-            this.state.clock == true && this.state.selected != null ? 'Clocked In!' : 'Clocked Out!'
-          )
-        ),
         React.createElement(
           'div',
           { className: 'list-container', id: 'list-wrap' },
@@ -124,22 +138,27 @@ var List = function (_React$Component) {
               'div',
               { className: 'list' },
               React.createElement('input', { id: 'userText', type: 'text', placeholder: 'Enter Task', onChange: this.handleChange.bind(this), value: this.state.input })
+            ),
+            React.createElement(
+              'button',
+              { className: 'clear', onClick: this.clear.bind(this) },
+              'Clear All'
             )
           ),
           React.createElement(
             'ul',
             null,
-            this.state.tasks.map(function (x, i) {
+            tasks.map(function (x, i) {
               return React.createElement(
                 'li',
                 { onClick: _this3.select.bind(_this3), key: i },
-                x.title,
-                ' ',
-                x.time != 0 ? React.createElement(
+                x.name,
+                React.createElement(
                   'p',
                   null,
-                  x.time
-                ) : ''
+                  x.time,
+                  's'
+                )
               );
             })
           )
