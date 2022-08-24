@@ -46,7 +46,6 @@ i {
     cursor: pointer;
 }
 .clockin:hover {
-    background-color: #da6758d5;
     border: solid #ffe6e3d5 8px;
     transition: 200ms;
 
@@ -54,19 +53,26 @@ i {
 .clockin > h1 {
     font-size: 64px;
     user-select: none;
+    text-align: center;
 }
 .content {
+    display: flex;
+    justify-content: center;
+}
+.react-content {
     padding:180px;
     display: flex;
     justify-content: space-around;
+    width: 100%;
 }
 .list-container {
     position: relative;
     border-radius: 20px;
-    top: -100px;
     padding: 20px;
     background-color: #0000001F;
     height: fit-content;
+    max-height: 350px;
+    overflow-y: auto;
 }
 .add {
     display: flex;
@@ -111,6 +117,7 @@ li {
     cursor: pointer;
     user-select: none;
     border: solid #00000000 4px;
+    max-width: 300px;
 }
 li:hover {
     background-color: #da6758d5;
@@ -122,4 +129,38 @@ li:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.clockout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    height: 400px;
+    width: 400px;
+    background-color: #5fd2ffc7;
+    -webkit-box-shadow: 15px 15px 118px -42px rgba(0,0,0,0.75);
+    -moz-box-shadow: 15px 15px 118px -42px rgba(0,0,0,0.75);
+    box-shadow: 15px 15px 118px -42px rgba(0,0,0,0.75);
+    border: solid #00000000 8px;
+    cursor: pointer;
+}
+
+.clockout > h1 {
+    font-size: 64px;
+    user-select: none;
+    text-align: center;
+}
+
+.clockout:hover {
+    border: solid #ffe6e3d5 8px;
+    transition: 200ms;
+
+}
+.selected {
+    background-color: #5fd2ffc7;
+}
+.selected:hover {
+    background-color: #5fd2ffc7;
+    border: solid #ffe6e3d5 4px;
 }

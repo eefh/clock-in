@@ -8,7 +8,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var root = ReactDOM.createRoot(document.getElementById('list-wrap'));
+var root = ReactDOM.createRoot(document.getElementById('content-container'));
 
 var List = function (_React$Component) {
   _inherits(List, _React$Component);
@@ -21,7 +21,11 @@ var List = function (_React$Component) {
     _this.state = {
       name: '',
       tasks: [],
-      selected: {}
+      selected: null,
+      clock: false,
+      clockText: 'Clocked Out!',
+      date: new Date()
+
     };
     return _this;
   }
@@ -40,40 +44,105 @@ var List = function (_React$Component) {
       if (this.state.name != '') {
         this.setState({
           name: '',
-          tasks: [].concat(_toConsumableArray(this.state.tasks), [this.state.name])
+          tasks: [].concat(_toConsumableArray(this.state.tasks), [{ title: this.state.name, time: 0 }])
         });
       }
     }
   }, {
+    key: 'clockChange',
+    value: function clockChange() {
+      this.setState({
+        clock: !this.state.clock
+      });
+    }
+  }, {
+    key: 'select',
+    value: function select(event) {
+      if (this.state.selected != event.target) {
+        this.setState({
+          selected: event.target
+        });
+        event.target.className = 'selected';
+      } else {
+        this.setState({
+          selected: null
+        });
+        event.target.className = '';
+      }
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      this.timerID = setInterval(function () {
+        return _this2.tick();
+      }, 1000);
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      clearInterval(this.timerID);
+    }
+  }, {
+    key: 'tick',
+    value: function tick() {
+      this.setState({
+        date: new Date()
+      });
+      console.log(this.state.date);
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
+
       return React.createElement(
         'div',
-        null,
+        { className: 'react-content' },
         React.createElement(
           'div',
-          { className: 'user-input' },
+          { onClick: this.clockChange.bind(this), className: this.state.clock === true && this.state.selected != null ? 'clockout' : 'clockin' },
           React.createElement(
-            'button',
-            { className: 'add', onClick: this.handleUpdate.bind(this) },
-            '+'
-          ),
-          React.createElement(
-            'div',
-            { className: 'list' },
-            React.createElement('input', { id: 'userText', type: 'text', placeholder: 'Enter Task', onChange: this.handleChange.bind(this), value: this.state.input })
+            'h1',
+            null,
+            this.state.clock == true && this.state.selected != null ? 'Clocked In!' : 'Clocked Out!'
           )
         ),
         React.createElement(
-          'ul',
-          null,
-          this.state.tasks.map(function (x, i) {
-            return React.createElement(
-              'li',
-              { key: i },
-              x
-            );
-          })
+          'div',
+          { className: 'list-container', id: 'list-wrap' },
+          React.createElement(
+            'div',
+            { className: 'user-input' },
+            React.createElement(
+              'button',
+              { className: 'add', onClick: this.handleUpdate.bind(this) },
+              '+'
+            ),
+            React.createElement(
+              'div',
+              { className: 'list' },
+              React.createElement('input', { id: 'userText', type: 'text', placeholder: 'Enter Task', onChange: this.handleChange.bind(this), value: this.state.input })
+            )
+          ),
+          React.createElement(
+            'ul',
+            null,
+            this.state.tasks.map(function (x, i) {
+              return React.createElement(
+                'li',
+                { onClick: _this3.select.bind(_this3), key: i },
+                x.title,
+                ' ',
+                x.time != 0 ? React.createElement(
+                  'p',
+                  null,
+                  x.time
+                ) : ''
+              );
+            })
+          )
         )
       );
     }
