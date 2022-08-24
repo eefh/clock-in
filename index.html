@@ -12,23 +12,25 @@
 <body>
     <div class="bar">
         <h1>ClockIn Check</h1>
-        <div class="profile"><i class="fa-solid fa-user"></i></div>
     </div>
-    <div class="content">
+    <div id="content-container" class="content">
         <div class="clockin">
             <h1>Clock In!</h1>
         </div>
-        <div class="list-container">
-            <button class="add">+</button>
-            <div class="list">
-                <input id="userText"type="text" placeholder="Enter Task">
-            </div>        
+        <div class="list-container" id="list-wrap">
+            <div class="user-input">
+                <button class="add">+</button>
+                <div class="list">
+                    <input id="userText"type="text" placeholder="Enter Task">
+                </div>
+            </div>
+            <div id="list"></div>
         </div>
     
     </div>
 
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>  
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-    <script src="src/list.js"></script>
+    <script src="list.js"></script>
 </body>
 </html>

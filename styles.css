@@ -42,6 +42,14 @@ i {
     -webkit-box-shadow: 15px 15px 118px -42px rgba(0,0,0,0.75);
     -moz-box-shadow: 15px 15px 118px -42px rgba(0,0,0,0.75);
     box-shadow: 15px 15px 118px -42px rgba(0,0,0,0.75);
+    border: solid #00000000 8px;
+    cursor: pointer;
+}
+.clockin:hover {
+    background-color: #da6758d5;
+    border: solid #ffe6e3d5 8px;
+    transition: 200ms;
+
 }
 .clockin > h1 {
     font-size: 64px;
@@ -53,16 +61,12 @@ i {
     justify-content: space-around;
 }
 .list-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     position: relative;
-    width: 400px;
-    height: 120px;
-    border-radius: 400px;
+    border-radius: 20px;
     top: -100px;
-
+    padding: 20px;
     background-color: #0000001F;
+    height: fit-content;
 }
 .add {
     display: flex;
@@ -74,10 +78,13 @@ i {
     width: 100px;
     height: 100px;
     border: none;
+    cursor: pointer;
+    border: solid #00000000 4px;
 }
 .add:hover {
     background-color: #da6758d5;
     transition: 200ms;
+    border: solid #ffe6e3d5 4px;
 }
 #userText {
     width: 240px;
@@ -88,4 +95,31 @@ i {
     text-align: center;
     font-size: 24px;
     border-radius: 15px;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    font-size: 28px;
+    text-align: center;
+    margin: 20px;
+    padding:20px;
+    border-radius: 20px;
+    background-color: #0000001F;
+    cursor: pointer;
+    user-select: none;
+    border: solid #00000000 4px;
+}
+li:hover {
+    background-color: #da6758d5;
+    transition: 200ms;
+    border: solid #ffe6e3d5 4px;
+}
+
+.user-input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
